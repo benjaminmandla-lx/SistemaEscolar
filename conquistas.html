@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+
+{% block title %}Conquistas{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="text-center mb-5">
+
+        <h1 class="display-5 fw-bold">
+            🏅 Minhas Conquistas
+        </h1>
+
+        <p class="text-muted">
+            Evolua em cada matéria e desbloqueie novos níveis!
+        </p>
+
+    </div>
+
+    <hr>
+
+    {% if conquistas %}
+
+    <div class="row">
+
+        {% for item in conquistas %}
+
+        <div class="col-md-6 mb-4">
+
+            <div class="card h-100 shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <!-- Cabeçalho -->
+                    <div class="d-flex align-items-center mb-3">
+
+                        <div
+                            class="rounded-circle bg-light d-flex align-items-center justify-content-center me-3"
+                            style="width: 70px; height: 70px;"
+                        >
+                            {% if item.nivel == "Iniciante" %}
+                                <span style="font-size: 35px;">🌱</span>
+
+                            {% elif item.nivel == "Bronze" %}
+                                <span style="font-size: 35px;">🥉</span>
+
+                            {% elif item.nivel == "Prata" %}
+                                <span style="font-size: 35px;">🥈</span>
+
+                            {% elif item.nivel == "Ouro" %}
+                                <span style="font-size: 35px;">🥇</span>
+
+                            {% else %}
+                                <span style="font-size: 35px;">🏆</span>
+                            {% endif %}
+                        </div>
+
+                        <div>
+
+                            <h3 class="card-title fw-bold mb-1">
+                                {{ item.materia }}
+                            </h3>
+
+                            <span class="badge bg-primary">
+                                Nível: {{ item.nivel }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Quantidade de atividades -->
+
+                    <p class="text-muted small mb-2">
+
+                        Você realizou
+
+                        <strong>
+                            {{ item.total }}
+                        </strong>
+
+                        atividades nesta matéria.
+
+                    </p>
+
+
+                    <!-- Barra de progresso -->
+
+                    <div
+                        class="progress"
+                        style="height: 20px;"
+                    >
+
+                        <div
+                            class="progress-bar progress-bar-striped progress-bar-animated"
+                            role="progressbar"
+                            style="width: {{ item.progresso }}%;"
+                            aria-valuenow="{{ item.progresso }}"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                        >
+
+                            {{ item.progresso }}%
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Próximo nível -->
+
+                    {% if item.proximo %}
+
+                    <p class="text-muted small mt-2 mb-0 text-center">
+
+                        Faltam
+
+                        <strong>
+                            {{ item.restantes }}
+                        </strong>
+
+                        atividades para desbloquear
+
+                        <strong>
+                            {{ item.proximo }}
+                        </strong>!
+
+                    </p>
+
+                    {% else %}
+
+                    <p class="text-success fw-bold small mt-2 mb-0 text-center">
+
+                        🎉 Parabéns!
+
+                        Você atingiu o nível máximo
+                        <strong>Platino</strong>
+                        em {{ item.materia }}!
+
+                    </p>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <!-- Nenhuma atividade -->
+
+    <div class="text-center py-5">
+
+        <div style="font-size: 60px;">
+            🏅
+        </div>
+
+        <h3 class="text-muted mt-3">
+            Nenhuma conquista iniciada ainda.
+        </h3>
+
+        <p class="text-muted">
+            Cadastre sua primeira atividade para começar a desbloquear conquistas!
+        </p>
+
+        <a
+            href="{{ url_for('cadastro_atividade') }}"
+            class="btn btn-primary mt-2"
+        >
+            <i class="bi bi-plus-circle-fill"></i>
+            Cadastrar Atividade
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

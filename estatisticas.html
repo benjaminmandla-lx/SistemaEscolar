@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}Estatísticas{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="row my-3">
+
+        <div class="col">
+
+            <h4>
+                Estatísticas de Desempenho
+            </h4>
+
+        </div>
+
+    </div>
+
+
+    <div class="row my-2">
+
+        <!-- GRÁFICO DE NOTAS -->
+
+        <div class="col-md-6 py-1">
+
+            <div class="card">
+
+                <h5 class="card-title">
+                    Evolução das Notas
+                </h5>
+
+                <div class="card-body">
+
+                    <canvas id="graficoEvolucao"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- GRÁFICO DE MATÉRIAS -->
+
+        <div class="col-md-6 py-1">
+
+            <div class="card">
+
+                <h5 class="card-title">
+                    Atividades por Matéria
+                </h5>
+
+                <div class="card-body">
+
+                    <canvas id="graficoDonut"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Chart.js -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="{{ url_for('static', filename='js/graficos.js') }}"></script>
+
+{% endblock %}

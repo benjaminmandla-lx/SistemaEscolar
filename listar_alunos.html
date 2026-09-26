@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Alunos{% endblock %}
+
+{% block navbar %}
+{% include 'navbar.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="col-sm-12 col-lg-6 offset-lg-3">
+    <h2>Alunos cadastrados</h2>
+  </div>
+  <hr>
+
+  {% if alunos and alunos|length > 0 %}
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Prontuário</th>
+          <th>Data de nascimento</th>
+          <th>Foto</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for aluno in alunos %}
+        <tr>
+          <td>{{ aluno.nome }}</td>
+          <td>{{ aluno.prontuario }}</td>
+          <td>{{ aluno.data_nascimento }}</td>
+          <td>
+            {% if aluno.foto %}
+              <img src="{{ aluno.foto }}" alt="Foto" style="width:40px;height:40px;border-radius:50%;object-fit:cover;" />
+            {% else %}
+              <img src="{{ url_for('static', filename='img/default-user.png') }}" alt="Foto" style="width:40px;height:40px;border-radius:50%;object-fit:cover;" />
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <div class="col-sm-12 col-lg-6 offset-lg-3">
+      <h2>Nenhum aluno encontrado.</h2>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
+

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Cadastro de Turmas{% endblock %}
+
+{% block navbar %}
+{% include 'navbar.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <div class="col-sm-12 col-lg-6 offset-lg-3">
+        <h1>Cadastro de Turmas</h1>
+    </div>
+
+    {% if resultado == 'turma_existe' %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        Turma já cadastrada. Tente novamente.
+        <button type="button" class="btn-close" data-bs-dismiss="alert"
+            aria-label="Close"></button>
+    </div>
+    {% endif %}
+
+    <hr>
+
+    <div class="col-lg-6 offset-lg-3 col-sm-12">
+
+<form action="{{ url_for('salvar_turma', id=id) }}" method="POST">
+
+            <div class="mb-2">
+                <label for="materia">Nova Turma</label>
+                <input
+                    type="text"
+                    name="nome_turma"
+                    id="nome_turma"
+                    class="form-control"
+                    minlength="3"
+                    maxlength="50"
+                    required>
+            </div>
+
+            <div class="mb-2">
+                <button type="submit" class="btn btn-primary">
+    				<i class="bi bi-check-circle"></i> Salvar</button>
+
+                <a href="{{ url_for('home') }}"
+                   id="link"
+                   class="btn btn-secondary">
+                    Voltar
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+{% endblock %}

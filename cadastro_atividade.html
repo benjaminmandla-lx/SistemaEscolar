@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Cadastro de Atividades{% endblock %}
+
+{% block navbar %}
+{% include 'navbar.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="col-sm-12 col-lg-6 offset-lg-3">
+        <h1>Cadastro de Atividades</h1>
+    </div>
+    <hr>
+    <div class="col-lg-6 offset-lg-3 col-sm-12">
+        <form action="{{ url_for('salvar_atividade', id=id) }}" method="POST">
+            <div class="mb-2">
+                <label for="materia">Matéria:</label>
+                <select name="nome_materia" id="nome_materia" class="form-control" required>
+                    <option value="" hidden>Selecione uma Matéria</option>
+                    {% for materia in materias %}
+                    <option value="{{materia.id}}">
+                        {{materia.nome_materia }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-2">
+                <label for="aluno">Aluno:</label>
+                <select name="nome_aluno" id="nome_aluno" class="form-control" required>
+                    <option value="" hidden>Selecione um Aluno</option>
+                    {% for usuario in usuarios %}
+                    <option value="{{usuario.id}}">
+                        {{usuario.nome }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+
+            <div class="mb-2">
+                <label for="data">Data de realização</label>
+                <input type="date" name="data" id="data" class="form-control" 
+                    value="{{ atividade.data.strftime('%Y-%m-%d') if atividade.data else '' }}" required />
+            </div>
+            <div class="mb-2">
+                <label for="tipoativ">Tipo de Atividade:</label>
+                <select name="tipoativ" id="tipoativ" class="form-control" required>
+                    <option value="" hidden>Selecione um Tipo de Atividade</option>
+                    <option value="Trabalho" {% if atividade.tipoativ == 'Trabalho' %}selected{% endif %}>Trabalho</option>
+                    <option value="Prova" {% if atividade.tipoativ == 'Prova' %}selected{% endif %}>Prova</option>
+                    <option value="Participacao" {% if atividade.tipoativ == 'Participacao' %}selected{% endif %}>Participação</option>
+                    <option value="Ponto Extra" {% if atividade.tipoativ == 'Ponto Extra' %}selected{% endif %}>Ponto Extra</option>
+                    <option value="Repuperacao" {% if atividade.tipoativ == 'Recuperacao' %}selected{% endif %}>Recuperação</option>
+                </select>
+            </div>
+            <div class="mb-2">
+                <label for="nota">Nota:</label>
+                <input type="number" class="form-control" step="0.01" name="nota" id="nota" 
+                    value="{{ atividade.nota if atividade.nota else '' }}" required />
+            </div>
+            <div class="mb-2">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+            <a href="{{ url_for('home') }}" id="link" class="btn btn-secondary">
+                Voltar
+            </a>
+        </form>
+    </div>
+
+</div>
+{% endblock %}

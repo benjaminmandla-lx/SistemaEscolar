@@ -1,0 +1,125 @@
+<nav class="navbar navbar-expand-lg navbar-dark"><div class="container">
+<a class="navbar-brand" href="/">
+     Sistema de Controle de Notas
+    </a>
+
+    <button class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent">
+
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse"
+      id="navbarSupportedContent">
+
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+        {% if session["usuario_tipo"]=="PROFESSOR" or session["usuario_tipo"]=="ADM" %}
+        <li class="nav-item">
+          <a class="nav-link nav-btn"
+           href="{{url_for('cadastro_atividade')}}">
+            <i class="bi bi-plus-circle"></i>
+            Nova Atividade
+          </a>
+        </li>
+        {% endif %}
+
+        {% if session["usuario_tipo"]=="ADM" %}
+        <li class="nav-item">
+          <a class="nav-link nav-btn"
+           href="{{url_for('cadastro_materia')}}">
+            <i class="bi bi-book"></i>
+            Nova Matéria
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link nav-btn"
+           href="{{url_for('cadastro_turma')}}">
+            <i class="bi bi-people"></i>
+            Nova Turma
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link nav-btn"
+           href="{{url_for('cadastro_usuario')}}">
+            <i class="bi bi-person-plus"></i>
+            Novo Usuário
+          </a>
+        </li>
+        {% endif %}
+        {% if session.get("usuario_tipo") == "ALUNO" %}
+        <li class="nav-item">
+	      <a class="nav-link nav-btn" href="{{ url_for('estatisticas') }}">
+          Estatísticas</a>
+        </li>
+        {%endif%}
+        {% if session["usuario_tipo"] in ["ADMIN", "ADM", "PROFESSOR"] or session.get("usuario_tipo") == "ALUNO" %}
+        <li class="nav-item">
+          <a class="nav-link nav-btn" href="{{ url_for('listar_alunos') }}">
+            <i class="bi bi-people"></i>
+            Alunos
+          </a>
+        </li>
+        {% endif %}
+      
+      <li class="nav-item">
+    <a
+        class="nav-link nav-btn {% if request.endpoint == 'quadro_lideres' %}active{% endif %}"
+        href="{{ url_for('quadro_lideres') }}"
+    >
+        🏆 Quadro de Líderes
+    </a>
+    </li>
+    {% if session.get("usuario_tipo") == "ALUNO" %}
+    <li class="nav-item">
+    <a
+        class="nav-link nav-btn {% if request.endpoint == 'conquistas' %}active fw-semibold{% endif %}"
+        href="{{ url_for('conquistas') }}"
+    >
+        <i class="bi bi-award-fill me-1"></i>
+        Conquistas
+    </a>
+  </li>
+  {% endif %}
+</ul>
+      <!-- Perfil -->
+
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle"
+					href="#"
+           role="button"
+           data-bs-toggle="dropdown">
+
+            <i class="bi bi-person-circle"></i>
+            {{ session.get('nome_usuario') }}
+          </a>
+
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <a class="dropdown-item" href="{{url_for('perfil')}}">
+                Minha Conta
+              </a>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item"
+               href="{{url_for('logout')}}">
+                Sair
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</nav>

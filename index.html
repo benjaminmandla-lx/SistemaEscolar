@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Página Inicial{% endblock %}
+
+{% block navbar %}
+{% include 'navbar.html' %}
+{% endblock %}
+
+{% block content %}
+    <script src="SAN/static/js/scripts.js"></script>
+    <div class="container">
+        <div class="col-sm-12 col-lg-6 offset-lg-3">
+            <h2>Controle de Atividades</h2>
+        </div>
+        <hr>
+        {% if atividades %}
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        {%if session["usuario_tipo"]=="PROFESSOR" or session["usuario_tipo"]=="ADM"%}
+<th>Alunos</th>
+                        {%endif%}
+                        <th>Matéria</th>
+                        <th>Atividade</th>
+                        <th>Nota</th>
+                        <th>Data de Realização</th>
+                        {%if session["usuario_tipo"]=="PROFESSOR" or session["usuario_tipo"]=="ADM"%}
+                        <th>Ações</th>
+                        {%endif%}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for atividade in atividades %}
+                    <tr>
+{%if session["usuario_tipo"]=="PROFESSOR" or session["usuario_tipo"]=="ADM"%}
+                        <td>{{atividade.aluno_nome}}</td>
+                        {%endif%}
+                        <td>{{atividade.materia_nome}}</td>
+                        <td>{{ atividade.tipoativ }}</td>
+                        <td>{{ atividade.nota }}</td>
+                        <td>{{ atividade.data.strftime('%d/%m/%Y') }}</td>
+            
+                        {%if session["usuario_tipo"]=="PROFESSOR" or session["usuario_tipo"]=="ADM"%}
+                        <td>
+                            <a href="{{ url_for('exibir_edicao', id=atividade.id) }}" class="btn btn-sm btn-primary">
+                                Editar
+                            </a>
+                            <a href="" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#myModal"
+                                data-atividade-id="{{ atividade.id }}">
+                                Excluir
+                            </a>
+                        </td>
+                        {%endif%}
+                        
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+            <div class="col-sm-12 col-lg-6 offset-lg-3">
+                <h2>Nenhuma atividade registrada.</h2>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% include 'modal_excluir.html' %}
+

@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %}Cadastro de Matérias{% endblock %}
+
+{% block navbar %}
+{% include 'navbar.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <div class="col-sm-12 col-lg-6 offset-lg-3">
+        <h1>Cadastro de Matérias</h1>
+    </div>
+
+    {% if resultado == 'materia_existe' %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        Matéria já cadastrada. Tente novamente.
+        <button type="button" class="btn-close" data-bs-dismiss="alert"
+            aria-label="Close"></button>
+    </div>
+    {% endif %}
+
+    <hr>
+
+    <div class="col-lg-6 offset-lg-3 col-sm-12">
+
+        <form action="{{ url_for('salvar_materia', id=id) }}" method="POST">
+
+            <div class="mb-2">
+                <label for="materia">Nova Matéria</label>
+                <input
+                    type="text"
+                    name="materia"
+                    id="materia"
+                    class="form-control"
+                    minlength="3"
+                    maxlength="50"
+                    required>
+            </div>
+
+                <div class="mb-2">
+                <label for="turma">Turma</label>
+
+                <select
+                    name="turma_id"
+                    id="turma"
+                    class="form-select"
+                    required>
+
+                    <option value="">
+                        Selecione uma Turma
+                    </option>
+
+                    {% for turma in turmas %}
+                    <option value="{{ turma.id }}">
+                        {{turma.nome_turma}}
+                    </option>
+                    {% endfor %}
+
+                </select>
+            </div>
+
+            <div class="mb-2">
+                <label for="professor">Professor</label>
+
+                <select
+                    name="professor_id"
+                    id="professor"
+                    class="form-select"
+                    required>
+
+                    <option value="">
+                        Selecione um professor
+                    </option>
+
+                    {% for usuario in usuarios %}
+                    {% if usuario.tipo == "PROFESSOR" %}
+                    <option value="{{ usuario.id }}">
+                    {{ usuario.nome }}
+                    </option>
+                    {% endif %}
+                    {% endfor %}
+
+                </select>
+            </div>
+
+            <div class="mb-2">
+                <button type="submit" class="btn btn-primary">
+    				<i class="bi bi-check-circle"></i> Salvar</button>
+
+                <a href="{{ url_for('home') }}"
+                   id="link"
+                   class="btn btn-secondary">
+                    Voltar
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+{% endblock %}

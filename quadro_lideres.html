@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+
+{% block title %}Quadro de Líderes{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold">
+            🏆 Quadro de Líderes
+        </h1>
+
+        <p class="text-muted">
+            Confira os alunos com as maiores médias do sistema.
+        </p>
+    </div>
+
+    <hr>
+
+    <div class="col-lg-10 offset-lg-1">
+
+        <div class="card shadow-sm border-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th
+                                scope="col"
+                                class="text-center"
+                                style="width: 100px;"
+                            >
+                                Posição
+                            </th>
+
+                            <th scope="col">
+                                Aluno
+                            </th>
+
+                            <th class="text-center">
+                                Atividades
+                            </th>
+
+                            <th class="text-center">
+                                Média
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for linha in ranking %}
+
+                        <tr
+                            class="
+                            {% if loop.index == 1 %}
+                                table-warning
+                            {% elif loop.index == 2 %}
+                                table-light
+                            {% elif loop.index == 3 %}
+                                table-danger
+                            {% endif %}
+                            "
+                        >
+
+                            <!-- POSIÇÃO -->
+
+                            <td class="text-center fw-bold">
+
+                                {% if loop.index == 1 %}
+
+                                    🥇 1º
+
+                                {% elif loop.index == 2 %}
+
+                                    🥈 2º
+
+                                {% elif loop.index == 3 %}
+
+                                    🥉 3º
+
+                                {% else %}
+
+                                    {{ loop.index }}º
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- ALUNO -->
+
+                            <td>
+
+                                <div class="d-flex align-items-center">
+
+                                    {% if linha.Usuario.foto %}
+
+                                        <img
+                                            src="/{{ linha.Usuario.foto }}"
+                                            alt="Foto de {{ linha.Usuario.nome }}"
+                                            class="rounded-circle me-3 border"
+                                            style="
+                                                width: 45px;
+                                                height: 45px;
+                                                object-fit: cover;
+                                            "
+                                        >
+
+                                    {% else %}
+
+                                        <div
+                                            class="rounded-circle bg-secondary text-white
+                                                   d-flex align-items-center justify-content-center
+                                                   me-3"
+                                            style="
+                                                width: 45px;
+                                                height: 45px;
+                                            "
+                                        >
+                                            <i class="bi bi-person"></i>
+                                        </div>
+
+                                    {% endif %}
+
+                                    <div>
+
+                                        <span class="fw-semibold">
+                                            {{ linha.Usuario.nome }}
+                                        </span>
+
+                                        {% if linha.Usuario.prontuario %}
+
+                                        <br>
+
+                                        <span class="text-muted small">
+                                            {{ linha.Usuario.prontuario }}
+                                        </span>
+
+                                        {% endif %}
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- ATIVIDADES -->
+
+                            <td class="text-center">
+
+                                <span class="fw-bold">
+                                    {{ linha.total_atividades }}
+                                </span>
+
+                            </td>
+
+
+                            <!-- MÉDIA -->
+
+                            <td class="text-center">
+
+                                <span class="fw-bold fs-5">
+
+                                    {{ "%.2f"|format(linha.media or 0) }}
+
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+
+                            <td
+                                colspan="4"
+                                class="text-center py-5 text-muted"
+                            >
+
+                                <h5>
+                                    Nenhum aluno possui notas registradas.
+                                </h5>
+
+                                <p class="mb-0">
+                                    O quadro de líderes aparecerá quando
+                                    houver atividades com notas.
+                                </p>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
